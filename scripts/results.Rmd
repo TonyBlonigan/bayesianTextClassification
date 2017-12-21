@@ -1,0 +1,249 @@
+---
+title: "Removing Project Gutenberg Headers & Footers with Naive Bayes Classification"
+author: "Tony Blonigan"
+date: "December 14, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+```
+
+```{r, setupEnvironment}
+
+getAccuracy = function(confusionMatrix){
+  return(round( sum(diag(confusionMatrix)) / sum(confusionMatrix) , 3))
+}
+
+getRecall = function(confusionMatrix) {
+  return(round(diag(confusionMatrix) / rowSums(confusionMatrix), 3))
+}
+
+getPrecision = function(confusionMatrix) {
+  return(round(diag(confusionMatrix) / colSums(confusionMatrix), 3))
+}
+
+getMetrics = function(confusionMatrix) {
+  
+  accuracy = paste0("accuarcy:  ", round( sum(diag(confusionMatrix)) / sum(confusionMatrix) , 3))
+  
+  classRecall = paste0("recall:    ",
+                       paste0(dimnames(confusionMatrix)[[1]], " = ", round(diag(confusionMatrix) / rowSums(confusionMatrix), 3), collapse = " | ")
+  )
+  
+  precisionByClass = paste0("precision: ", 
+                            paste0(dimnames(confusionMatrix)[[2]], " = ", round(diag(confusionMatrix) / colSums(confusionMatrix), 3), collapse = " | ")
+                            )
+  
+  print(accuracy)
+  print(classRecall)
+  print(precisionByClass)
+}
+
+
+# n25 --------------------------------------------------------------------
+# real    155m58.738s
+# user    0m36.250s
+# sys     0m4.998s
+
+
+n25 = matrix(data = c(4550,1453,3043,
+                      554,985255,106,
+                      864,10,30400),
+       ncol = 3, nrow = 3,
+       byrow = TRUE, 
+       dimnames = list(c("header","novel","footer"), 
+                       c("header","novel","footer")))
+
+
+
+
+
+# n20 --------------------------------------------------------------------
+# real    218m14.077s
+# user    0m44.034s
+# sys     0m6.511s
+
+n20 = matrix(data = c(5697,1824,3832,
+                      951,1231418,137,
+                      1023,13,38145),
+       ncol = 3, nrow = 3,
+       byrow = TRUE, 
+       dimnames = list(c("header","novel","footer"), 
+                       c("header","novel","footer")))
+
+
+# n15 ---------------------------------------------------------------------
+# real    196m6.095s (3.3H)
+# user    0m41.412s
+# sys     0m5.973s
+
+
+n15 = matrix(data = c(7678, 2447, 5101, 
+                2114, 1641208, 185, 
+                1229, 17, 51018),
+       ncol = 3, nrow = 3,
+       byrow = TRUE, 
+       dimnames = list(c("header","novel","footer"), 
+                       c("header","novel","footer")))
+
+
+# n10 ---------------------------------------------------------------------
+# real    222m49.998s (3.7H)
+# user    0m42.964s
+# sys     0m6.763s
+
+n10 = matrix(data = c(11764, 3678, 7611,
+                      7224, 2457937, 336, 
+                      2226, 34, 76523),
+             ncol = 3, nrow = 3,
+             byrow = TRUE, 
+             dimnames = list(c("header","novel","footer"), 
+                             c("header","novel","footer")))
+
+
+# n5 --------------------------------------------
+# real    211m17.558s (3.5H)
+# user    0m42.784s
+# sys     0m6.651s
+
+n5 = matrix(data = c(24391,7529,14644,
+                    65580,4863228,2672,
+                    5999,305,151720),
+             ncol = 3, nrow = 3,
+             byrow = TRUE, 
+             dimnames = list(c("header","novel","footer"), 
+                             c("header","novel","footer")))
+
+# n3 --------------------------------------------
+# real    225m49.389s (3.7H)
+# user    0m43.786s
+# sys     0m6.789s
+
+
+n3 = matrix(data = c(37914,13034,26953,
+                     257540,7929769,32155,
+                     18211,1574,243914),
+             ncol = 3, nrow = 3,
+             byrow = TRUE, 
+             dimnames = list(c("header","novel","footer"), 
+                             c("header","novel","footer")))
+
+print("")
+print("N-Gram Length = 3")
+print("")
+print(n3)
+print("")
+getMetrics(n3)
+print("")
+print("-------------------------------------------------------------")
+print("")
+print("")
+print("N-Gram Length = 5")
+print("")
+print(n5)
+print("")
+getMetrics(n5)
+print("")
+print("-------------------------------------------------------------")
+print("")
+print("")
+print("N-Gram Length = 10")
+print("")
+print(n10)
+print("")
+getMetrics(n10)
+print("")
+print("-------------------------------------------------------------")
+print("")
+print("")
+print("N-Gram Length = 15")
+print("")
+print(n15)
+print("")
+getMetrics(n15)
+print("")
+print("-------------------------------------------------------------")
+print("")
+print("")
+print("N-Gram Length = 20")
+print("")
+print(n20)
+print("")
+getMetrics(n20)
+print("")
+print("-------------------------------------------------------------")
+print("")
+print("")
+print("N-Gram Length = 25")
+print("")
+print(n25)
+print("")
+getMetrics(n25)
+print("")
+
+```
+
+
+```{r, plotAccuracy}
+gAccuracy = data.frame(nGram = c(3,5,10,15,20,25),
+  accuracy = c(getAccuracy(n3), getAccuracy(n5), getAccuracy(n10), 
+               getAccuracy(n15), getAccuracy(n20), getAccuracy(n20)))
+
+
+ggplot(gAccuracy, aes(nGram, accuracy)) +
+  geom_line(size=1) +
+  geom_point(size=2) +
+  geom_text(aes(label = paste0(accuracy * 100, "%")), vjust = 2) +
+  theme_bw() +
+  ylab("")+
+  xlab('N-Gram Length') +
+  ggtitle("Accuracy") + 
+  scale_y_continuous(labels = scales::'percent',
+                     limits = c(0,1)) +
+  scale_x_continuous(limits = c(0,25))
+```
+
+
+```{r, plotRecall}
+gRecall = data.frame(nGram = c(3,3,3,5,5,5,10,10,10,15,15,15,20,20,20,25,25,25),
+                     class = rep(names(getRecall(n3)), 6),
+  recall = c(getRecall(n3), getRecall(n5), getRecall(n10), 
+             getRecall(n15), getRecall(n20), getRecall(n25)))
+
+
+
+ggplot(gRecall, aes(nGram, recall, color = class)) +
+  geom_line(size=1) +
+  geom_point(size=2) +
+  geom_text(aes(label = paste0(recall * 100, "%")), vjust = 2.5) +
+  theme_bw() +
+  ylab("")+
+  xlab('N-Gram Length') +
+  ggtitle("Recall") + 
+  scale_y_continuous(labels = scales::'percent',
+                     limits = c(0,1)) +
+  scale_x_continuous(limits = c(0,25))
+```
+
+```{r, plotPrecision}
+gPrecision = data.frame(nGram = c(3,3,3,5,5,5,10,10,10,15,15,15,20,20,20, 25, 25, 25),
+                     class = rep(names(getPrecision(n3)), 6),
+  precision = c(getPrecision(n3), getPrecision(n5), getPrecision(n10), 
+                getPrecision(n15), getPrecision(n20), getPrecision(n25)))
+
+
+
+ggplot(gPrecision, aes(nGram, precision, color = class)) +
+  geom_line(size=1) +
+  geom_point(size=2) +
+  geom_text(aes(label = paste0(precision * 100, "%")), vjust = 2) +
+  theme_bw() +
+  ylab("")+
+  xlab('N-Gram Length') +
+  ggtitle("Precision") + 
+  scale_y_continuous(labels = scales::'percent',
+                     limits = c(0,1)) +
+  scale_x_continuous(limits = c(0,25))
+```
