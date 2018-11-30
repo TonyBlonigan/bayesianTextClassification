@@ -21,6 +21,8 @@ Not surprisingly, most of the model's failures were in distinguishing between th
 
 That said, if my goal were really to simply pull out the text of the novel, I suspect that collapsing the header and footer into a single class would lead to extremely high accuracy, recall, and precision.
 
+![](https://github.com/TonyBlonigan/bayesianTextClassification/blob/master/Results.Precision.png "Precision by N-Gram Length")
+![](https://github.com/TonyBlonigan/bayesianTextClassification/blob/master/Results.Recall.png "Recall by N-Gram Length")
 ## Files
 * bayesianTextClassifier.scala
 
