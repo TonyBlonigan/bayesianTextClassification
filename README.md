@@ -1,4 +1,7 @@
 # bayesianTextClassification
+
+![](https://github.com/TonyBlonigan/bayesianTextClassification/blob/master/Results.Accuracy.png)
+
 ## Detecting Project Gutenberg Headers, Footers &amp; Novels Using Naive Bayes Classification with Spark and Scala
 
 Uses Spark, Scala, and a bit of R for visualization
