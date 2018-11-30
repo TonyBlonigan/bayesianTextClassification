@@ -1,10 +1,9 @@
 # bayesianTextClassification
 
-![](https://github.com/TonyBlonigan/bayesianTextClassification/blob/master/Results.Accuracy.png)
-
 ## Detecting Project Gutenberg Headers, Footers &amp; Novels Using Naive Bayes Classification with Spark and Scala
 
 Uses Spark, Scala, and a bit of R for visualization
+![](https://github.com/TonyBlonigan/bayesianTextClassification/blob/master/Results.Accuracy.png "Accuracy by N-Gram Length")
 
 ## Brief Project Overview
 I had access to a 200-core cluster and wanted to play around with spark and scala. I also had access to 4,160 plain-text books from projectgutenberg.org. On reviewing the books, I was disappointed to find that each book started and ended with 'verbiage' added to each novel by the Project Gutenberg editors. To make matters worse, each header/footer was different from the next. It looks to me like there are several templates the editors are using for their headers and footers, and there are also lots of variations of sentences within each template (probably because the editors were changing the templates to their liking).
