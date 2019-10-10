@@ -204,7 +204,6 @@ val footer(foot) = novel
 foot
 }
 
-// Sentiment Analysis -------------------------------------------------
 // filter out tiny and giant books
 def acceptPageCountSentiment(novel:String): Boolean = {  
 // assuming 300 words per page based on 
