@@ -29,9 +29,6 @@ That said, if my goal were really to simply pull out the text of the novel, I su
 This file contains the source code for all spark/scala processing
 
 * Results.*
-  
-  These files show key evaluation plots so you don't have to dig through the scripts folder
-
+  - These files show key evaluation plots so you don't have to dig through the scripts folder
 * scripts
-
-This directory contains R scripts used to visualize the data and results, and a plots folder containing more plots. I used a custom R package that I have not shared on github yet (mmmTools) so this script won't really run for you, but shared it so you can at least see how metrics were evaluated
+  - This directory contains R scripts used to visualize the data and results, and a plots folder containing more plots. I used a custom R package that I have not shared on github yet (mmmTools) so this script won't really run for you, but shared it so you can at least see how metrics were evaluated
