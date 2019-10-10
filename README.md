@@ -25,9 +25,7 @@ That said, if my goal were really to simply pull out the text of the novel, I su
 ![](https://github.com/TonyBlonigan/bayesianTextClassification/blob/master/Results.Recall.png "Recall by N-Gram Length")
 ## Files
 * bayesianTextClassifier.scala
-
-This file contains the source code for all spark/scala processing
-
+  - This file contains the source code for all spark/scala processing
 * Results.*
   - These files show key evaluation plots so you don't have to dig through the scripts folder
 * scripts
